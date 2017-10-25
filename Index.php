@@ -37,19 +37,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
           <li class="nav-item active" data-toggle="tooltip" data-placement="right" title="Dashboard">
-            <a class="nav-link" href="#">
+              <a class="nav-link" href="Index.php">
               <i class="fa fa-fw fa-dashboard"></i>
               <span class="nav-link-text">
                 Painel de Controle</span>
             </a>
           </li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estatística">
+        <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Estatística">
             <a class="nav-link" href="#">
               <i class="fa fa-fw fa-area-chart"></i>
               <span class="nav-link-text">
                 Estatística</span>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Relatórios">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#relatorios_drop" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-table"></i>
@@ -78,7 +78,7 @@
               
           </li>
         
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Cadastros">
+       <!--   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Cadastros">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-file"></i>
               <span class="nav-link-text">
@@ -104,7 +104,7 @@
 
             </ul>
           </li>
-          <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-sitemap"></i>
               <span class="nav-link-text">
@@ -134,14 +134,11 @@
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-wrench"></i>
               <span class="nav-link-text">
-                Configurações </span>
+                Usuários </span>
             </a>
             <ul class="sidenav-second-level collapse" id="collapseComponents">
               <li>
-                <a href="static-nav.html">Usuarios</a>
-              </li>
-              <li>
-                <a href="#">Adicionar Usuario</a>
+                <a href="index.php?op=listagem-usuarios">Usuarios</a>
               </li>
             </ul>
           </li>
@@ -192,7 +189,7 @@
 
       <div class="container-fluid">
 <!--REDIRECIONAMENTO LISTAGEM -->
-             <?php 
+            <?php 
           if ($_GET) {
             if (isset($_GET['op'])) {
               $op = $_GET['op'];
@@ -218,8 +215,8 @@
                 include './Relatorios/form_edit_materia.php';
                 
               }
-              if ($op == "") {
-                include './Relatorios/form_edit_materia.php';
+              if ($op == "listagem-usuarios") {
+                include './Usuarios/usuarios.php';
                 
               }
               
