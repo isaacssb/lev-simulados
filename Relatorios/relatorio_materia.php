@@ -173,14 +173,8 @@ if (isset($_POST['btnModalExcluir'])) {
                         <label for="recipient-name" class="control-label">Nome:</label>
                         <input name="nome" type="text" class="form-control" id="recipient-name">
                     </div>
-                    <div class="form-group">
-                        <label>Status: </label><br>
-                        <select name="status" class="form-control">
-                            <option value="ATIVADO">ATIVADO</option> 
-                            <option value="DESATIVADO">DESATIVADO</option> 
-                        </select>
-                    </div>
-                    <input name="id" type="hidden" class="form-control" id="id-materia" value="">
+                   
+                    <input name="id" type="hidden" class="form-control" id="id-usuario" value="">
 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger" name="btnModalAlterar">Alterar</button>

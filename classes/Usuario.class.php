@@ -64,11 +64,11 @@ class Pessoa {
             //$this->tipoPessoa = $dados['tipoPessoa'];
             //$this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
             $this->dataCadastro = $this->objfc->dataAtual(2);
-            $cst = $this->con->conectar()->prepare("INSERT INTO `PESSOA` (NM_PESSOA, EMAIL_PESSOA, TIPO_PESSOA, DATA_CADASTRO) VALUES (:nome,:email,3,:dt);");
+            $cst = $this->con->conectar()->prepare("INSERT INTO `PESSOA` (NM_PESSOA, EMAIL_PESSOA,SENHA_PESSOAS, TIPO_PESSOA, DATA_CADASTRO) VALUES (:nome,:email,:senha,3,:dt);");
             $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
             //$cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
-            
+             $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
             //$cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
             $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);
             if ($cst->execute()) {
@@ -85,17 +85,18 @@ class Pessoa {
         try {
             $this->idTipoCompetencia = intval($dados['id']);
             $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
+             $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
             $this->emailPessoa = $dados['email'];
-            $this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
-            $this->tipoPessoa = $dados['tipoPessoa'];
-            $this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
-            $cst = $this->con->conectar()->prepare("UPDATE `PESSOA` SET  `NM_PESSOA` = :nome, `EMAIL_PESSOA` = :email, ESCOLARIDADE_PESSOA = :escolaridade,TIPO_PESSOA = :tipo, CIDADE_PESSOA = :cidade  WHERE `ID_PESSOA` = :id;");
+            //$this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
+            //$this->tipoPessoa = $dados['tipoPessoa'];
+            //$this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
+            $cst = $this->con->conectar()->prepare("UPDATE `PESSOA` SET  `NM_PESSOA` = :nome,`EMAIL_PESSOA` = :email,  WHERE `ID_PESSOA` = :id;");
             $cst->bindParam(":id", $this->idPessoa, PDO::PARAM_INT);
             $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
-            $cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
-            $cst->bindParam(":tipo", $this->tipoPessoa, PDO::PARAM_INT);
-            $cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
+            //$cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
+            //$cst->bindParam(":tipo", $this->tipoPessoa, PDO::PARAM_INT);
+            //$cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
             if ($cst->execute()) {
                 return 'ok';
             } else {
@@ -108,7 +109,7 @@ class Pessoa {
 
     public function queryDelete($dados) {
         try {
-            $this->idPessoa = intval($dados['id']);
+            $this->idPessoa = $dados['id'];
             $cst = $this->con->conectar()->prepare("DELETE FROM `PESSOA` WHERE `ID_PESSOA` = :id;");
             $cst->bindParam(":id", $this->idPessoa, PDO::PARAM_INT);
             if ($cst->execute()) {
@@ -122,7 +123,7 @@ class Pessoa {
     }
     public function queryVerificarEmail($dados) {
         try {
-            $this->emailPessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
+            $this->emailPessoa = $this->objfc->tratarCaracter($dados['email'], 1);
             $cst = $this->con->conectar()->prepare("SELECT * FROM `PESSOA` WHERE EMAIL_PESSOA = :email  ;");
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
             $cst->execute();

@@ -14,7 +14,7 @@ if (isset($_POST['btnModalCadastrar'])) {
                 <div class="message">
                     <div class="alert alert-success">
                         <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                        Materia cadastrada com sucesso!
+                        Usuário cadastrada com sucesso!
                     </div>
                 </div>
                 <?php
@@ -39,41 +39,50 @@ if (isset($_POST['btnModalCadastrar'])) {
             <?php
         }
     } else {
-         ?>
-                <div class="message">
-                    <div class="alert alert-danger">
-                        <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                        Confirmação de Senha Invalida
-                    </div>
-                </div>
-                <?php
+        ?>
+        <div class="message">
+            <div class="alert alert-danger">
+                <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
+                Confirmação de Senha Invalida
+            </div>
+        </div>
+        <?php
     }
 }
 
 
 if (isset($_POST['btnModalAlterar'])) {
-
-    if ($objtpc->queryUpdate($_POST) == 'ok') {
-        ?>
-        <div class="message">
-            <div class="alert alert-success">
-                <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                Alteração realizada com sucesso!
+    if ($_POST['senha'] == $_POST['csenha']) {
+        if ($objtpc->queryUpdate($_POST) == 'ok') {
+            ?>
+            <div class="message">
+                <div class="alert alert-success">
+                    <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
+                    Alteração realizada com sucesso!
+                </div>
             </div>
-        </div>
-        <?php
+            <?php
+        } else {
+            ?>
+            <div class="message">
+                <div class="alert alert-danger">
+                    <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
+                    Erro no Cadastro
+                </div>
+            </div>
+            <?php
+        }
     } else {
         ?>
         <div class="message">
             <div class="alert alert-danger">
                 <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                Erro no Cadastro
+                Confirmação de Senha Invalida
             </div>
         </div>
         <?php
     }
 }
-
 if (isset($_POST['btnModalExcluir'])) {
 
     if ($objtpc->queryDelete($_POST) == 'ok') {
@@ -81,7 +90,7 @@ if (isset($_POST['btnModalExcluir'])) {
         <div class="message">
             <div class="alert alert-success">
                 <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                Materia excluída com Sucesso
+                Usuário Excluído com sucesso
             </div>
         </div>
         <?php
@@ -100,69 +109,79 @@ if (isset($_POST['btnModalExcluir'])) {
 
 <div class="container theme-showcase" role="main"> 
     <div class="page-header">
-        <h1>Listar Materias</h1>
+
     </div>
     <div class="row">
         <div class="pull-right">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCadastrarMateria">Cadastrar</button>
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCadastrarUsuario">Cadastrar</button>
 
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>NOME USUARIO</th>
-                        <th>TIPO USUARIO</th>
-                        <th>Data de Cadastro</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- todos dados da pesquisa vao ser atribuido na variavel $rst -->
-<?php foreach ($objtpc->querySelect() as $rst) { ?>
-                        <tr>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i>
+                    Relatórios de Redatores
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered"  id="dataTable" cellspacing="0">
+                            <thead width="100%">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>NOME USUARIO</th>
+                                    <th>TIPO USUARIO</th>
+                                    <th>Data de Cadastro</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <!-- todos dados da pesquisa vao ser atribuido na variavel $rst -->
+                                <?php foreach ($objtpc->querySelect() as $rst) { ?>
+                                    <tr>
 
-                            <td><?= $rst['ID_PESSOA']; ?></td>
-                            <td><?= $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></td>
-                            <td><?= $objFcs->tratarCaracter($rst['TIPO_PESSOA'], 2) ?></td>
-                            <td><?= $rst['DATA_CADASTRO']; ?></td>
-                            <td> 
-                                <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalhes<?= $rst['ID_PESSOA']; ?>">Visualizar</button>
-                                <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarMateria" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button>
+                                        <td><?= $rst['ID_PESSOA']; ?></td>
+                                        <td><?= $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></td>
+                                        <td><?= $objFcs->tratarCaracter($rst['TIPO_PESSOA'], 2) ?></td>
+                                        <td><?= $rst['DATA_CADASTRO']; ?></td>
+                                        <td> 
+                                            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalhes<?= $rst['ID_PESSOA']; ?>">Visualizar</button>
+                                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whateveremail="<?php echo $rst['EMAIL_PESSOA']; ?>"  data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button>
+                                            <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalExcluirUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Excluir</button>  
+                                        </td>
+                                    </tr>
 
-                                <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalExcluirMateria" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Excluir</button>  
-                            </td>
-                        </tr>
+                                    <!-- INICIO DO MODAL VISUALIZAR DETALHES -->
+                                <div class="modal fade" id="modalDetalhes<?= $rst['ID_PESSOA']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title text-center" id="myModalLabel"><?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                        <!-- INICIO DO MODAL VISUALIZAR DETALHES -->
-                    <div class="modal fade" id="modalDetalhes<?= $rst['ID_PESSOA']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title text-center" id="myModalLabel"><?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>ID DO USUARIO:</strong> <?php echo $rst['ID_PESSOA']; ?></p>
+                                                <p><strong>NOME DO USUARIO:</strong> <?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></p>
+                                                <p><strong>TIPO DE USUARIO:</strong> <?php echo $objFcs->tratarCaracter($rst['TIPO_PESSOA'], 2) ?></p>
+                                                <p><strong>EMAIL:</strong> <?php echo $rst['EMAIL_PESSOA']; ?></p>
+                                                <p><strong>DATA DE CADASTRO:</strong> <?php echo $rst['DATA_CADASTRO']; ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <p><strong>ID DA MATERIA:</strong> <?php echo $rst['ID_PESSOA']; ?></p>
-                                    <p><strong>NOME DA MATERIA:</strong> <?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></p>
-                                    <p><strong>STATUS:</strong> <?php echo $objFcs->tratarCaracter($rst['TIPO_PESSOA'], 2) ?></p>
-                                    <p><strong>DATA DE CADASTRO:</strong> <?php echo $rst['DATA_CADASTRO']; ?></p>
-                                </div>
-                            </div>
-                        </div>
+                                <!-- Fim Modal -->
+                            <?php } ?>
+                            <!-- Fim  foreach -->
+
+                            <!-- Fim Modal -->
+                            </tbody>
+
+                        </table>
                     </div>
-                    <!-- Fim Modal -->
-<?php } ?>
-
-
-                <!-- Fim Modal -->
-                </tbody>
-
-            </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -170,7 +189,7 @@ if (isset($_POST['btnModalExcluir'])) {
 
 
 <!-- MODAL EDITAR -->
-<div class="modal fade" id="modalEditarMateria" tabindex="-1" role="dialog" aria-labelledby="ModalEditar">
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="ModalEditar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -183,15 +202,18 @@ if (isset($_POST['btnModalExcluir'])) {
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Nome:</label>
                         <input name="nome" type="text" class="form-control" id="recipient-name">
+                        <label for="recipient-email" class="control-label">Email:</label>
+                        <input name="email" type="email" class="form-control" id="recipient-email">
                     </div>
                     <div class="form-group">
-                        <label>Status: </label><br>
-                        <select name="status" class="form-control">
-                            <option value="ATIVADO">ATIVADO</option> 
-                            <option value="DESATIVADO">DESATIVADO</option> 
-                        </select>
+                        <label class="control-label">Senha: </label>
+                        <input type="password" name="senha" required="required" value="" class="form-control">
+                        <label class="control-label">Confirmação de Senha: </label><br>
+                        <input type="password" name="csenha" required="required" value="" class="form-control">
                     </div>
-                    <input name="id" type="hidden" class="form-control" id="id-materia" value="">
+
+
+                    <input name="id" type="hidden" class="form-control" id="id-usuario" value="">
 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger" name="btnModalAlterar">Alterar</button>
@@ -206,7 +228,7 @@ if (isset($_POST['btnModalExcluir'])) {
 
 
 <!-- MODAL EXCLUIR -->
-<div class="modal fade" id="modalExcluirMateria" tabindex="-1" role="dialog" aria-labelledby="modalExcluir">
+<div class="modal fade" id="modalExcluirUsuario" tabindex="-1" role="dialog" aria-labelledby="modalExcluir">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -218,9 +240,9 @@ if (isset($_POST['btnModalExcluir'])) {
                 <form method="POST" action="" enctype="multipart/form-data">
 
                     <div class="form-group">
-                        <p>Tem certeza que deseja excluir a materia</p>
+                        <p>Tem certeza que deseja excluir o usuario </p>
                     </div>
-                    <input name="id" type="hidden" class="form-control" id="id-materia" value="">
+                    <input name="id" type="hidden" class="form-control" id="id-usuario" value="">
 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger" name="btnModalExcluir">Excluir</button>
@@ -239,7 +261,7 @@ if (isset($_POST['btnModalExcluir'])) {
 
 
 
-<div class="modal fade" id="modalCadastrarMateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCadastrar">
+<div class="modal fade" id="modalCadastrarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCadastrar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
