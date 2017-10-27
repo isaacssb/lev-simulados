@@ -99,7 +99,7 @@ if (isset($_POST['btnModalExcluir'])) {
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table class="table">
+            <table class="table table-bordered"  id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
                         <th>ID</th>

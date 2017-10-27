@@ -9,7 +9,7 @@ $objtpc = new Pessoa();
 if (isset($_POST['btnModalCadastrar'])) {
     if ($_POST['senha'] == $_POST['csenha']) {
         if ($objtpc->queryVerificarEmail($_POST) == 'ok') {
-            if ($objtpc->queryInsertRedator($_POST) == 'ok') {
+            if ($objtpc->queryInsertAluno($_POST) == 'ok') {
                 ?>
                 <div class="message">
                     <div class="alert alert-success">
@@ -138,16 +138,16 @@ if (isset($_POST['btnModalExcluir'])) {
                             </thead>
                             <tbody >
                                 <!-- todos dados da pesquisa vao ser atribuido na variavel $rst -->
-                                <?php foreach ($objtpc->querySelectRedator() as $rst) { ?>
+                                <?php foreach ($objtpc->querySelectAluno() as $rst) { ?>
                                     <tr>
 
                                         <td><?= $rst['ID_PESSOA']; ?></td>
                                         <td><?= $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></td>
-                                        <td><?= $objFcs->tratarPessoa($rst['TIPO_PESSOA'], 2) ?></td>
+                                        <td><?= $objFcs->tratarPessoa($rst['TIPO_PESSOA']) ?></td>
                                         <td><?= $rst['DATA_CADASTRO']; ?></td>
                                         <td> 
                                             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalhes<?= $rst['ID_PESSOA']; ?>">Visualizar</button>
-                                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whateveremail="<?php echo $rst['EMAIL_PESSOA']; ?>"  data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button>
+                                           <!-- BOTAO EDITAR DESATIVADO <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whateveremail="<?php echo $rst['EMAIL_PESSOA']; ?>"  data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button> -->
                                             <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalExcluirUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Excluir</button>  
                                         </td>
                                     </tr>
@@ -166,6 +166,8 @@ if (isset($_POST['btnModalExcluir'])) {
                                                 <p><strong>NOME DO USUARIO:</strong> <?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></p>
                                                 <p><strong>TIPO DE USUARIO:</strong> <?php echo $objFcs->tratarPessoa($rst['TIPO_PESSOA'], 2) ?></p>
                                                 <p><strong>EMAIL:</strong> <?php echo $rst['EMAIL_PESSOA']; ?></p>
+                                                <p><strong>ESCOARIDADE:</strong> <?php echo $rst['ESCOLARIDADE_PESSOA']; ?></p>
+                                                <p><strong>CIDADE:</strong> <?php echo $rst['CIDADE_PESSOA']; ?></p>
                                                 <p><strong>DATA DE CADASTRO:</strong> <?php echo $rst['DATA_CADASTRO']; ?></p>
                                             </div>
                                         </div>
@@ -188,7 +190,7 @@ if (isset($_POST['btnModalExcluir'])) {
 </div>
 
 
-<!-- MODAL EDITAR -->
+<!-- MODAL EDITAR  DESATIVADO MODAL EDITAR
 <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="ModalEditar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -224,7 +226,7 @@ if (isset($_POST['btnModalExcluir'])) {
         </div>
     </div>
 </div>
-<!-- FIM MODAL EDITAR -->
+ FIM MODAL EDITAR -->
 
 
 <!-- MODAL EXCLUIR -->
@@ -265,7 +267,7 @@ if (isset($_POST['btnModalExcluir'])) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalCadastrar">Cadastrar Materia</h4>
+                <h4 class="modal-title" id="exampleModalCadastrar">Cadastrar Usuario</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
@@ -276,11 +278,20 @@ if (isset($_POST['btnModalExcluir'])) {
                         <label>Nome do Usuário: </label><br>
                         <input type="text" name="nome" required="required" value="" class="form-control "><br>
                         <label>Email: </label><br>
-                        <input type="email" name="email" required="required" value="" class="form-control"><br>
+                        <input type="email" name="email" required="required" value="" class="form-control">
+                        
+                        <label>Escolaridade: </label><br>
+                        <select name="escolaridade" class="form-control">
+                            <option value="Ensino Fundamental">Ensino Fundamental</option> 
+                            <option value="Ensino Medio">Ensino Medio</option> 
+                            <option value="Ensino Superior">Ensino Superior</option> 
+                        </select>
+                        <label>Cidade: </label><br>
+                        <input type="text" name="cidade" required="required" value="" class="form-control "><br>
                         <label>Senha: </label><br>
-                        <input type="password" name="senha" required="required" value="" class="form-control"><br>
+                        <input type="password" name="senha" required="required" value="" class="form-control">
                         <label>Confirmação de Senha: </label><br>
-                        <input type="password" name="csenha" required="required" value="" class="form-control"><br>
+                        <input type="password" name="csenha" required="required" value="" class="form-control">
 
 
                     </div>

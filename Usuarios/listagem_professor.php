@@ -9,7 +9,7 @@ $objtpc = new Pessoa();
 if (isset($_POST['btnModalCadastrar'])) {
     if ($_POST['senha'] == $_POST['csenha']) {
         if ($objtpc->queryVerificarEmail($_POST) == 'ok') {
-            if ($objtpc->queryInsertRedator($_POST) == 'ok') {
+            if ($objtpc->queryInsertProfessor($_POST) == 'ok') {
                 ?>
                 <div class="message">
                     <div class="alert alert-success">
@@ -51,33 +51,22 @@ if (isset($_POST['btnModalCadastrar'])) {
 }
 
 
-if (isset($_POST['btnModalAlterar'])) {
-    if ($_POST['senha'] == $_POST['csenha']) {
-        if ($objtpc->queryUpdate($_POST) == 'ok') {
-            ?>
-            <div class="message">
-                <div class="alert alert-success">
-                    <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                    Alteração realizada com sucesso!
-                </div>
+if (isset($_POST['btnModalAlterarProfessor'])) {
+    if ($objtpc->queryUpdateProfessor($_POST) == 'ok') {
+        ?>
+        <div class="message">
+            <div class="alert alert-success">
+                <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
+                Alteração realizada com sucesso!
             </div>
-            <?php
-        } else {
-            ?>
-            <div class="message">
-                <div class="alert alert-danger">
-                    <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                    Erro no Cadastro
-                </div>
-            </div>
-            <?php
-        }
+        </div>
+        <?php
     } else {
         ?>
         <div class="message">
             <div class="alert alert-danger">
                 <a href="index.php?op=listagem-usuarios" class="close" data-dismiss="alert">&times</a>
-                Confirmação de Senha Invalida
+                Erro no Cadastro
             </div>
         </div>
         <?php
@@ -138,7 +127,7 @@ if (isset($_POST['btnModalExcluir'])) {
                             </thead>
                             <tbody >
                                 <!-- todos dados da pesquisa vao ser atribuido na variavel $rst -->
-                                <?php foreach ($objtpc->querySelectRedator() as $rst) { ?>
+                                <?php foreach ($objtpc->querySelectProfessor() as $rst) { ?>
                                     <tr>
 
                                         <td><?= $rst['ID_PESSOA']; ?></td>
@@ -147,7 +136,7 @@ if (isset($_POST['btnModalExcluir'])) {
                                         <td><?= $rst['DATA_CADASTRO']; ?></td>
                                         <td> 
                                             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalDetalhes<?= $rst['ID_PESSOA']; ?>">Visualizar</button>
-                                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whateveremail="<?php echo $rst['EMAIL_PESSOA']; ?>"  data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button>
+                                            <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#modalEditarProfessor" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whateveremail="<?php echo $rst['EMAIL_PESSOA']; ?>" data-whatevercidade="<?php echo $objFcs->tratarCaracter($rst['CIDADE_PESSOA'], 2) ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Editar</button>
                                             <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modalExcluirUsuario" data-whatever="<?php echo $rst['ID_PESSOA']; ?>" data-whatevernome="<?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?>" >Excluir</button>  
                                         </td>
                                     </tr>
@@ -166,6 +155,8 @@ if (isset($_POST['btnModalExcluir'])) {
                                                 <p><strong>NOME DO USUARIO:</strong> <?php echo $objFcs->tratarCaracter($rst['NM_PESSOA'], 2) ?></p>
                                                 <p><strong>TIPO DE USUARIO:</strong> <?php echo $objFcs->tratarPessoa($rst['TIPO_PESSOA'], 2) ?></p>
                                                 <p><strong>EMAIL:</strong> <?php echo $rst['EMAIL_PESSOA']; ?></p>
+                                                <p><strong>ESCOARIDADE:</strong> <?php echo $rst['ESCOLARIDADE_PESSOA']; ?></p>
+                                                <p><strong>CIDADE:</strong> <?php echo $rst['CIDADE_PESSOA']; ?></p>
                                                 <p><strong>DATA DE CADASTRO:</strong> <?php echo $rst['DATA_CADASTRO']; ?></p>
                                             </div>
                                         </div>
@@ -189,7 +180,7 @@ if (isset($_POST['btnModalExcluir'])) {
 
 
 <!-- MODAL EDITAR -->
-<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="ModalEditar">
+<div class="modal fade" id="modalEditarProfessor" tabindex="-1" role="dialog" aria-labelledby="ModalEditar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -206,17 +197,21 @@ if (isset($_POST['btnModalExcluir'])) {
                         <input name="email" type="email" class="form-control" id="recipient-email">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Senha: </label>
-                        <input type="password" name="senha" required="required" value="" class="form-control">
-                        <label class="control-label">Confirmação de Senha: </label><br>
-                        <input type="password" name="csenha" required="required" value="" class="form-control">
+                        <label>Escolaridade: </label><br>
+                        <select name="escolaridade" class="form-control">
+                            <option value="Ensino Fundamental">Ensino Fundamental</option> 
+                            <option value="Ensino Medio">Ensino Medio</option> 
+                            <option value="Ensino Superior">Ensino Superior</option> 
+                        </select>
+                        <label>Cidade: </label><br>
+                        <input type="text" name="cidade" required="required" id="cidade-pessoa" value="" class="form-control "><br>
                     </div>
 
 
                     <input name="id" type="hidden" class="form-control" id="id-usuario" value="">
 
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" name="btnModalAlterar">Alterar</button>
+                    <button type="submit" class="btn btn-danger" name="btnModalAlterarProfessor">Alterar</button>
 
                 </form>
             </div>
@@ -260,12 +255,11 @@ if (isset($_POST['btnModalExcluir'])) {
 <!-- MODAL CADASTRAR -->
 
 
-
 <div class="modal fade" id="modalCadastrarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCadastrar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalCadastrar">Cadastrar Materia</h4>
+                <h4 class="modal-title" id="exampleModalCadastrar">Cadastrar Usuario</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
             </div>
@@ -276,11 +270,20 @@ if (isset($_POST['btnModalExcluir'])) {
                         <label>Nome do Usuário: </label><br>
                         <input type="text" name="nome" required="required" value="" class="form-control "><br>
                         <label>Email: </label><br>
-                        <input type="email" name="email" required="required" value="" class="form-control"><br>
+                        <input type="email" name="email" required="required" value="" class="form-control">
+
+                        <label>Escolaridade: </label><br>
+                        <select name="escolaridade" class="form-control">
+                            <option value="Ensino Fundamental">Ensino Fundamental</option> 
+                            <option value="Ensino Medio">Ensino Medio</option> 
+                            <option value="Ensino Superior">Ensino Superior</option> 
+                        </select>
+                        <label>Cidade: </label><br>
+                        <input type="text" name="cidade" required="required" value="" class="form-control "><br>
                         <label>Senha: </label><br>
-                        <input type="password" name="senha" required="required" value="" class="form-control"><br>
+                        <input type="password" name="senha" required="required" value="" class="form-control">
                         <label>Confirmação de Senha: </label><br>
-                        <input type="password" name="csenha" required="required" value="" class="form-control"><br>
+                        <input type="password" name="csenha" required="required" value="" class="form-control">
 
 
                     </div>

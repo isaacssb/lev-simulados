@@ -28,7 +28,7 @@ class Pessoa {
     public function __get($atributo) {
         return $this->$atributo;
     }
-    
+
     //ALTERAR SQL
     public function querySeleciona($dado) {
         try {
@@ -41,12 +41,10 @@ class Pessoa {
             return 'error ' . $ex->getMessage();
         }
     }
-    
-    
-    
-    public function querySelect() {
+
+    public function querySelectRedator() {
         try {
-            $cst = $this->con->conectar()->prepare("SELECT ID_PESSOA, NM_PESSOA,EMAIL_PESSOA, ESCOLARIDADE_PESSOA, TIPO_PESSOA, CIDADE_PESSOA, DATA_CADASTRO FROM `PESSOA`;");
+            $cst = $this->con->conectar()->prepare("SELECT ID_PESSOA, NM_PESSOA,EMAIL_PESSOA, ESCOLARIDADE_PESSOA, TIPO_PESSOA, CIDADE_PESSOA, DATA_CADASTRO FROM `PESSOA` WHERE TIPO_PESSOA=3;");
             $cst->execute();
             return $cst->fetchAll();
         } catch (PDOException $ex) {
@@ -54,12 +52,32 @@ class Pessoa {
         }
     }
 
-    public function queryInsert($dados) {
+    public function querySelectAluno() {
+        try {
+            $cst = $this->con->conectar()->prepare("SELECT ID_PESSOA, NM_PESSOA,EMAIL_PESSOA, ESCOLARIDADE_PESSOA, TIPO_PESSOA, CIDADE_PESSOA, DATA_CADASTRO FROM `PESSOA` WHERE TIPO_PESSOA=1;");
+            $cst->execute();
+            return $cst->fetchAll();
+        } catch (PDOException $ex) {
+            return 'erro ' . $ex->getMessage();
+        }
+    }
+
+    public function querySelectProfessor() {
+        try {
+            $cst = $this->con->conectar()->prepare("SELECT ID_PESSOA, NM_PESSOA,EMAIL_PESSOA, ESCOLARIDADE_PESSOA, TIPO_PESSOA, CIDADE_PESSOA, DATA_CADASTRO FROM `PESSOA` WHERE TIPO_PESSOA=2;");
+            $cst->execute();
+            return $cst->fetchAll();
+        } catch (PDOException $ex) {
+            return 'erro ' . $ex->getMessage();
+        }
+    }
+
+    public function queryInsertRedator($dados) {
         try {
             $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
             $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
             $this->emailPessoa = $dados['email'];
-            
+
             //$this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
             //$this->tipoPessoa = $dados['tipoPessoa'];
             //$this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
@@ -68,7 +86,7 @@ class Pessoa {
             $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
             //$cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
-             $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
             //$cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
             $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);
             if ($cst->execute()) {
@@ -80,23 +98,101 @@ class Pessoa {
             return 'error ' . $ex->getMessage();
         }
     }
+    
+   
 
+    public function queryInsertAluno($dados) {
+        try {
+            $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
+            $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
+            $this->emailPessoa = $dados['email'];
+            $this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
+            $this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
+            $this->dataCadastro = $this->objfc->dataAtual(2);
+            $cst = $this->con->conectar()->prepare("INSERT INTO `PESSOA` (NM_PESSOA, EMAIL_PESSOA,SENHA_PESSOAS,ESCOLARIDADE_PESSOA,CIDADE_PESSOA,TIPO_PESSOA, DATA_CADASTRO) VALUES (:nome,:email,:senha,:escolaridade,:cidade,1,:dt);");
+            $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);
+            if ($cst->execute()) {
+                return 'ok';
+            } else {
+                return 'erro';
+            }
+        } catch (PDOException $ex) {
+            return 'error ' . $ex->getMessage();
+        }
+    }
+    
+    public function queryInsertProfessor($dados) {
+        try {
+            $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
+            $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
+            $this->emailPessoa = $dados['email'];
+            $this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
+            $this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
+            $this->dataCadastro = $this->objfc->dataAtual(2);
+            $cst = $this->con->conectar()->prepare("INSERT INTO `PESSOA` (NM_PESSOA, EMAIL_PESSOA,SENHA_PESSOAS,ESCOLARIDADE_PESSOA,CIDADE_PESSOA,TIPO_PESSOA, DATA_CADASTRO) VALUES (:nome,:email,:senha,:escolaridade,:cidade,2,:dt);");
+            $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);
+            if ($cst->execute()) {
+                return 'ok';
+            } else {
+                return 'erro';
+            }
+        } catch (PDOException $ex) {
+            return 'error ' . $ex->getMessage();
+        }
+    }
+    
     public function queryUpdate($dados) {
         try {
-            $this->idTipoCompetencia = intval($dados['id']);
+            $this->idPessoa = intval($dados['id']);
             $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
-             $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
+            $this->senhaPessoa = $this->objfc->base64($dados['senha'], 1);
             $this->emailPessoa = $dados['email'];
             //$this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
             //$this->tipoPessoa = $dados['tipoPessoa'];
             //$this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
-            $cst = $this->con->conectar()->prepare("UPDATE `PESSOA` SET  `NM_PESSOA` = :nome,`EMAIL_PESSOA` = :email,  WHERE `ID_PESSOA` = :id;");
+            $cst = $this->con->conectar()->prepare("UPDATE `PESSOA` SET  `NM_PESSOA` = :nome,`EMAIL_PESSOA` = :email, SENHA_PESSOAS = :senha  WHERE `ID_PESSOA` = :id;");
             $cst->bindParam(":id", $this->idPessoa, PDO::PARAM_INT);
             $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":senha", $this->senhaPessoa, PDO::PARAM_STR);
             //$cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
             //$cst->bindParam(":tipo", $this->tipoPessoa, PDO::PARAM_INT);
             //$cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
+            if ($cst->execute()) {
+                return 'ok';
+            } else {
+                return 'erro';
+            }
+        } catch (PDOException $ex) {
+            return 'error ' . $ex->getMessage();
+        }
+    }
+        public function queryUpdateProfessor($dados) {
+        try {
+            $this->idPessoa = intval($dados['id']);
+            $this->nomePessoa = $this->objfc->tratarCaracter($dados['nome'], 1);
+           
+            $this->emailPessoa = $dados['email'];
+            $this->escolaridadePessoa = $this->objfc->tratarCaracter($dados['escolaridade'], 1);
+           
+            $this->cidadePessoa = $this->objfc->tratarCaracter($dados['cidade'], 1);
+            $cst = $this->con->conectar()->prepare("UPDATE `PESSOA` SET  `NM_PESSOA` = :nome,`EMAIL_PESSOA` = :email, ESCOLARIDADE_PESSOA = :escolaridade, CIDADE_PESSOA = :cidade  WHERE `ID_PESSOA` = :id;");
+            $cst->bindParam(":id", $this->idPessoa, PDO::PARAM_INT);
+            $cst->bindParam(":nome", $this->nomePessoa, PDO::PARAM_STR);
+            $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
+            $cst->bindParam(":escolaridade", $this->escolaridadePessoa, PDO::PARAM_STR);
+          
+            $cst->bindParam(":cidade", $this->cidadePessoa, PDO::PARAM_STR);
             if ($cst->execute()) {
                 return 'ok';
             } else {
@@ -121,22 +217,21 @@ class Pessoa {
             return 'error' . $ex->getMessage();
         }
     }
+
     public function queryVerificarEmail($dados) {
         try {
             $this->emailPessoa = $this->objfc->tratarCaracter($dados['email'], 1);
             $cst = $this->con->conectar()->prepare("SELECT * FROM `PESSOA` WHERE EMAIL_PESSOA = :email  ;");
             $cst->bindParam(":email", $this->emailPessoa, PDO::PARAM_STR);
             $cst->execute();
-            if($cst->rowCount() == 0){
+            if ($cst->rowCount() == 0) {
                 return 'ok';
-            }else{
+            } else {
                 return 'erro';
             }
         } catch (PDOException $ex) {
             return 'erro ' . $ex->getMessage();
         }
     }
-        
-
 
 }

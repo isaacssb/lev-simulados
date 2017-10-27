@@ -28,6 +28,16 @@ class Funcoes {
         return $rst;
     }
     
+     public function tratarPessoa($tipo){
+        switch($tipo){
+            case 1: $rst = "ALUNO"; break;
+            case 2: $rst = "PROFESSOR"; break;
+            case 3: $rst = "REDATOR"; break;
+        }
+        return $rst;
+        
+    }
+    
 }
 
 ?>
