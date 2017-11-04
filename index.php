@@ -409,6 +409,105 @@
         </script>
 
         <!-- FIM SCRIPT -->
+        <script type="text/javascript">
+            $('#modalExcluirCompetencia').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var recipientnome = button.data('whatevernome')
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Excluir Id: ' + recipient)
+                modal.find('#id-competencia').val(recipient)
+                modal.find('#recipient-name').val(recipientnome)
+
+
+            })
+        </script>
+        <!-- FIM DO SCRIPT -->
+
+        <!-- SCRIPT EDITAR/EXCLUIR ASSUNTO -->
+        <script type="text/javascript">
+            $('#modalEditarAssunto').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var recipientnome = button.data('whatevernome')
+                var recipientpergunta = button.data('whateverpergunta')
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Editar Id: ' + recipient)
+                modal.find('#id-assunto').val(recipient)
+                modal.find('#recipient-name').val(recipientnome)
+                modal.find('#recipient-info').val(recipientpergunta)
+
+
+            })
+        </script>
+
+        <script type="text/javascript">
+            $('#modalExcluirAssunto').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var recipientnome = button.data('whatevernome')
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Excluir Id: ' + recipient)
+                modal.find('#id-assunto').val(recipient)
+                modal.find('#recipient-name').val(recipientnome)
+
+
+            })
+        </script>
+        <!-- FIM DO SCRIPT -->  
+
+        <!-- SCRIPT EDITAR/EXCLUIR QUESTÃO -->
+        <script type="text/javascript">
+            $('#modalEditarQuestao').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var recipientpergunta = button.data('whateverpergunta')
+                var recipientano = button.data('whateverano')
+                var recipientsemestre = button.data('whateversemestre')
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Editar Id: ' + recipient)
+                modal.find('#id-questao').val(recipient)
+                modal.find('#recipient-pergunta').val(recipientpergunta)
+                modal.find('#recipient-ano').val(recipientano)
+                modal.find('#recipient-semestre').val(recipientsemestre)
+
+
+            })
+        </script>
+
+        <script type="text/javascript">
+            $('#modalExcluirQuestao').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('whatever') // Extract info from data-* attributes
+                var recipientnome = button.data('whatevernome')
+
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-title').text('Excluir Id: ' + recipient)
+                modal.find('#id-questao').val(recipient)
+                modal.find('#recipient-name').val(recipientnome)
+
+
+            })
+        </script>
+
+
+
+
+
         <!-- SCRIPT EDITAR/EXCLUIR USUARIO -->
         <script type="text/javascript">
             $('#modalExcluirUsuario').on('show.bs.modal', function (event) {

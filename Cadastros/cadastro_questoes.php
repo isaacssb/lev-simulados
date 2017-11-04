@@ -2,15 +2,15 @@
 require_once 'classes/Questoes.class.php';
 require_once 'classes/Funcoes.class.php';
 require_once 'classes/alternativas.class.php';
-
+$objalter = new alternativas();
 $objtpc = new Questoes();
 $objFcs = new Funcoes();
-$objalter = new alternativas();
+
 
 if (isset($_POST['btnCadastrar'])) {
 
-    if ($objtpc->queryInsert($_POST) == 'ok') {
-        if($objalter->queryInsert($_POST) == 'ok' ){
+    if ($objalter->queryInsert($_POST) == 'ok') {
+        if($objtpc->queryInsert($_POST) == 'ok' ){
         ?>
         <div class="message">
             <div class="alert alert-success">
@@ -53,7 +53,7 @@ if (isset($_POST['btnCadastrar'])) {
                 <textarea class="form-control"  NAME="dscr" ROWS=3 COLS=32></textarea>
                 
                 <label>Alternativa 1: </label><br>
-                <textarea class="form-control"  NAME="alter1" ROWS=2 COLS=32></textarea>
+                <textarea class="form-control"  NAME="altercorreta" ROWS=2 COLS=32></textarea>
                 
                 <label>Alternativa 2: </label><br>
                 <textarea class="form-control"  NAME="alter2" ROWS=2 COLS=32></textarea>

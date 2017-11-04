@@ -13,6 +13,7 @@ class Questoes {
     private $idCompetencia;
     private $idDificuldade;
     private $idAssunto;
+    private $idAlternativa;
     private $perguntaQuestao;
     private $anoQuestao;
     private $semestreQuestao;
@@ -61,19 +62,21 @@ class Questoes {
             $this->idDificuldade = $dados['dificuldade'];
             $this->idCompetencia = $dados['competencia'];
             $this->idAssunto = $dados['assunto'];
-            $this->semestreQuestao = $dados['assunto'];$this->anoQuestao = $dados['ano'];
+            $this->idAlternativa = $this->con->conectar()->lastInsertId(); // PEGANDO O ULTIMO ID INSERIDO E COLOCANDO DA COLUNA (NO CASO O ULTIMO ID VAI SER O DA ALTERNATIVA)
+            $this->semestreQuestao = $dados['assunto'];$this->anoQuestao = $dados['ano']; //AQUI (????)
             $this->statusQuestao = $this->objfc->tratarCaracter($dados['status'], 1);
             $this->dataCadastro = $this->objfc->dataAtual(2);
-            $cst = $this->con->conectar()->prepare("INSERT INTO `QUESTAO` (`PERGUNTA_QUESTAO`,`ID_DIFICULDADE`, `ID_COMPETENCIA`,`ID_ASSUNTO`,`ANO_QUESTAO`,`SEMESTRE_QUESTAO`  ,`STATUS_QUESTAO`, `DATA_CADASTRO`)VALUES (:pergunta,:iddificuldade,:idcompetencia,:idassunto,:ano,:semestre, :status, :dt );");
+            $cst = $this->con->conectar()->prepare("INSERT INTO `QUESTAO` (`PERGUNTA_QUESTAO`,`ID_DIFICULDADE`, `ID_COMPETENCIA`,`ID_ASSUNTO`,`ID_ALTERNATIVA` ,`ANO_QUESTAO`,`SEMESTRE_QUESTAO`  ,`STATUS_QUESTAO`, `DATA_CADASTRO`)VALUES (:pergunta,:iddificuldade,:idcompetencia,:idassunto,:idalternativa,:ano,:semestre, :status, :dt );");
             $cst->bindParam(":pergunta", $this->perguntaQuestao, PDO::PARAM_STR);
             $cst->bindParam(":iddificuldade", $this->idDificuldade, PDO::PARAM_INT);
             $cst->bindParam(":idcompetencia", $this->idCompetencia, PDO::PARAM_INT);
-            $cst->bindParam(":idassunto", $this->idAssunto, PDO::PARAM_INT); 
+            $cst->bindParam(":idassunto", $this->idAssunto, PDO::PARAM_INT);
+            $cst->bindParam(":idalternativa", $this->idAlternativa, PDO::PARAM_INT);
             $cst->bindParam(":ano", $this->anoQuestao, PDO::PARAM_INT);
-            $cst->bindParam(":semestre", $this->semestreQuestao, PDO::PARAM_INT); 
-            $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);  
+            $cst->bindParam(":semestre", $this->semestreQuestao, PDO::PARAM_INT);
+            $cst->bindParam(":dt", $this->dataCadastro, PDO::PARAM_STR);
             $cst->bindParam(":status", $this->statusQuestao, PDO::PARAM_STR);
-            if ($cst->execute()) {               
+            if ($cst->execute()) {
                 return 'ok';
             } else {
                 return 'erro';
